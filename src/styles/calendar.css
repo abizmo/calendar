@@ -1,0 +1,8 @@
+.calendar-container {
+  height: 100vh;
+}
+
+.rbc-calendar {
+  flex: 1;
+  min-height: 580px;
+}
