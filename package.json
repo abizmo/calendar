@@ -20,7 +20,6 @@
     "lint": "eslint .",
     "test-once": "react-scripts test --passWithNoTests --watchAll=false",
     "validate": "npm-run-all --parallel test-once lint",
-    "precommit": "npm run validate",
     "prepare": "husky install"
   },
   "eslintConfig": {
