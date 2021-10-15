@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
 
 import '../../styles/modal.css';
 
@@ -16,21 +17,68 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const initialStartDate = moment().minutes(0).seconds(0).add(1, 'hours');
-const initialEndDate = initialStartDate.clone().add(1, 'hours');
+const startDate = moment().minutes(0).seconds(0).add(1, 'hours');
+const endDate = startDate.clone().add(1, 'hours');
 
 const CalendarModal = () => {
-  const [startDate, setStartDate] = useState(initialStartDate.toDate());
-  const [endDate, setEndDate] = useState(initialEndDate.toDate());
+  const [formValues, setFormValues] = useState({
+    description: '',
+    end: endDate.toDate(),
+    start: startDate.toDate(),
+    title: '',
+  });
+  const [titleInvalid, setTitleInvalid] = useState(false);
 
+  const {
+    description, end, start, title,
+  } = formValues;
+  // TODO: cerrar modal
   const closeModal = () => { console.log('closing...'); };
 
-  const handleStartDateChange = (e) => {
-    setStartDate(e);
+  const handleEndDateChange = (date) => {
+    setFormValues({
+      ...formValues,
+      end: date,
+    });
   };
 
-  const handleEndDateChange = (e) => {
-    setEndDate(e);
+  const handleFormValueChange = ({ target }) => {
+    setFormValues({
+      ...formValues,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleStartDateChange = (date) => {
+    setFormValues({
+      ...formValues,
+      start: date,
+    });
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    const momentStartDate = moment(start);
+    const momentEndDate = moment(end);
+
+    if (momentStartDate.isSameOrAfter(momentEndDate)) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'End date has to be later than start date',
+        footer: '<a href="">Why do I have this issue?</a>',
+      });
+    }
+
+    if (title.length < 3) {
+      return setTitleInvalid(true);
+    }
+
+    setTitleInvalid(false);
+    // TODO: enviar valores y cerrar formulario
+    console.log(formValues);
+    return true;
   };
 
   return (
@@ -44,7 +92,7 @@ const CalendarModal = () => {
     >
       <h1>New Event</h1>
       <hr />
-      <form className="row g-3">
+      <form className="row g-3" onSubmit={handleSubmit}>
         <div className="col-12">
           <label
             className="form-label"
@@ -56,7 +104,7 @@ const CalendarModal = () => {
             className="form-control"
             id="startDate"
             onChange={handleStartDateChange}
-            value={startDate}
+            value={start}
           />
         </div>
         <div className="col-12">
@@ -69,9 +117,9 @@ const CalendarModal = () => {
           <DateTimePicker
             className="form-control"
             id="endDate"
-            minDate={startDate}
+            minDate={start}
             onChange={handleEndDateChange}
-            value={endDate}
+            value={end}
           />
         </div>
         <div className="col-12">
@@ -79,10 +127,12 @@ const CalendarModal = () => {
             Title
           </label>
           <input
-            type="text"
-            name="title"
+            className={`form-control ${titleInvalid && 'is-invalid'}`}
             id="title"
-            className="form-control"
+            name="title"
+            onChange={handleFormValueChange}
+            type="text"
+            value={title}
           />
         </div>
         <div className="col-12">
@@ -94,7 +144,9 @@ const CalendarModal = () => {
             cols="30"
             id="description"
             name="description"
+            onChange={handleFormValueChange}
             rows="5"
+            value={description}
           />
         </div>
         <div className="col-12 mt-3">
