@@ -3,7 +3,9 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import { modalClose } from '../../actions/modal';
 
 import '../../styles/modal.css';
 
@@ -21,6 +23,8 @@ const startDate = moment().minutes(0).seconds(0).add(1, 'hours');
 const endDate = startDate.clone().add(1, 'hours');
 
 const CalendarModal = () => {
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
   const [formValues, setFormValues] = useState({
     description: '',
     end: endDate.toDate(),
@@ -32,8 +36,8 @@ const CalendarModal = () => {
   const {
     description, end, start, title,
   } = formValues;
-  // TODO: cerrar modal
-  const closeModal = () => { console.log('closing...'); };
+
+  const closeModal = () => { dispatch(modalClose()); };
 
   const handleEndDateChange = (date) => {
     setFormValues({
@@ -76,14 +80,14 @@ const CalendarModal = () => {
     }
 
     setTitleInvalid(false);
-    // TODO: enviar valores y cerrar formulario
+    // TODO: enviar valores
     console.log(formValues);
-    return true;
+    return closeModal();
   };
 
   return (
     <Modal
-      isOpen
+      isOpen={modal}
       onRequestClose={closeModal}
       style={customStyles}
       closeTimeoutMS={200}

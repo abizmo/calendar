@@ -3,15 +3,18 @@
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { useDispatch } from 'react-redux';
 
 import 'moment/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+import CalendarModal from '../components/calendar/CalendarModal';
 import Event from '../components/calendar/Event';
 import Navbar from '../components/ui/Navbar';
-import '../styles/calendar.css';
 import messages from '../localization/calendar-messages-es';
-import CalendarModal from '../components/calendar/CalendarModal';
+
+import '../styles/calendar.css';
+import { modalOpen } from '../actions/modal';
 
 moment.locale('es');
 
@@ -29,6 +32,7 @@ const events = [
 ];
 
 const CalendarPage = () => {
+  const dispatch = useDispatch();
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week');
 
   const components = {
@@ -43,8 +47,8 @@ const CalendarPage = () => {
     },
   });
 
-  const onDoubleClik = (e) => {
-    console.log('Double', e);
+  const onDoubleClik = () => {
+    dispatch(modalOpen());
   };
 
   const onSelect = (e) => {
