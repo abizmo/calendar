@@ -16,6 +16,7 @@ import { setEventActive } from '../actions/calendar';
 import { modalOpen } from '../actions/modal';
 
 import '../styles/calendar.css';
+import AddNewFab from '../components/ui/AddNewFab';
 
 moment.locale('es');
 
@@ -63,6 +64,7 @@ const CalendarPage = () => {
         onView={onView}
         view={lastView}
       />
+      <AddNewFab />
       <CalendarModal />
     </div>
   );

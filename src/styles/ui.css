@@ -1,0 +1,9 @@
+.fab {
+  border-radius: 50%;
+  bottom: 16px;
+  cursor: pointer;
+  font-size: 32px;
+  padding: 24px;
+  position: fixed;
+  right: 16px;
+}
