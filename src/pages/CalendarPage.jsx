@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 /* eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }] */
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import 'moment/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -13,26 +12,16 @@ import Event from '../components/calendar/Event';
 import Navbar from '../components/ui/Navbar';
 import messages from '../localization/calendar-messages-es';
 
-import '../styles/calendar.css';
+import { setEventActive } from '../actions/calendar';
 import { modalOpen } from '../actions/modal';
+
+import '../styles/calendar.css';
 
 moment.locale('es');
 
-const events = [
-  {
-    id: 0,
-    title: 'First event',
-    start: moment().toDate(),
-    end: moment().add(2, 'hours'),
-    user: {
-      userId: '0123',
-      name: 'goccita',
-    },
-  },
-];
-
 const CalendarPage = () => {
   const dispatch = useDispatch();
+  const { events } = useSelector((state) => state.calendar);
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week');
 
   const components = {
@@ -52,7 +41,7 @@ const CalendarPage = () => {
   };
 
   const onSelect = (e) => {
-    console.log('Select', e);
+    dispatch(setEventActive(e));
   };
 
   const onView = (e) => {
