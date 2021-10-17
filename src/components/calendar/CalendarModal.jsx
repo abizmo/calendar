@@ -5,6 +5,7 @@ import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import { newEvent } from '../../actions/calendar';
 import { modalClose } from '../../actions/modal';
 
 import '../../styles/modal.css';
@@ -81,8 +82,8 @@ const CalendarModal = () => {
 
     setTitleInvalid(false);
     // TODO: enviar valores
-    console.log(formValues);
-    return closeModal();
+    dispatch(newEvent(formValues));
+    return dispatch(modalClose());
   };
 
   return (

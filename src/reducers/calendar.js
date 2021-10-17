@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { CALENDAR_SET_ACTIVE } from '../actions/calendar';
+import { CALENDAR_NEW_EVENT, CALENDAR_SET_ACTIVE } from '../actions/calendar';
 
 const initialState = {
   events: [
@@ -20,6 +20,12 @@ const initialState = {
 // eslint-disable-next-line no-unused-vars
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case CALENDAR_NEW_EVENT:
+      return {
+        events: [...state.events, payload],
+        activeEvent: payload,
+      };
+
     case CALENDAR_SET_ACTIVE:
       return {
         ...state,
