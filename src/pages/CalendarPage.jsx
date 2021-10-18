@@ -7,22 +7,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'moment/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+import { setEventActive } from '../actions/calendar';
+import { modalOpen } from '../actions/modal';
 import CalendarModal from '../components/calendar/CalendarModal';
+import AddNewFab from '../components/ui/AddNewFab';
+import DeleteFab from '../components/ui/DeleteFab';
 import Event from '../components/calendar/Event';
 import Navbar from '../components/ui/Navbar';
 import messages from '../localization/calendar-messages-es';
 
-import { setEventActive } from '../actions/calendar';
-import { modalOpen } from '../actions/modal';
-
 import '../styles/calendar.css';
-import AddNewFab from '../components/ui/AddNewFab';
 
 moment.locale('es');
 
 const CalendarPage = () => {
   const dispatch = useDispatch();
-  const { events } = useSelector((state) => state.calendar);
+  const { events, activeEvent } = useSelector((state) => state.calendar);
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week');
 
   const components = {
@@ -64,6 +64,10 @@ const CalendarPage = () => {
         onView={onView}
         view={lastView}
       />
+      {
+        activeEvent
+        && <DeleteFab />
+      }
       <AddNewFab />
       <CalendarModal />
     </div>

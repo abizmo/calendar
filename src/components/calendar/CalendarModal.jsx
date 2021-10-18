@@ -5,7 +5,7 @@ import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { clearEventActive, newEvent } from '../../actions/calendar';
+import { clearEventActive, newEvent, updateEvent } from '../../actions/calendar';
 import { modalClose } from '../../actions/modal';
 
 import '../../styles/modal.css';
@@ -38,12 +38,14 @@ const CalendarModal = () => {
   const [titleInvalid, setTitleInvalid] = useState(false);
 
   const {
-    description, end, start, title,
+    description, id, end, start, title,
   } = formValues;
 
   useEffect(() => {
     if (activeEvent !== null) {
       setFormValues(activeEvent);
+    } else {
+      setFormValues(initEvent);
     }
   }, [activeEvent]);
 
@@ -95,7 +97,11 @@ const CalendarModal = () => {
 
     setTitleInvalid(false);
     // TODO: enviar valores
-    dispatch(newEvent(formValues));
+    if (id) {
+      dispatch(updateEvent(formValues));
+    } else {
+      dispatch(newEvent(formValues));
+    }
     return dispatch(modalClose());
   };
 
@@ -108,7 +114,7 @@ const CalendarModal = () => {
       className="modal p-4"
       overlayClassName="modal-fondo"
     >
-      <h1>New Event</h1>
+      <h1>{ id ? 'Update Event' : 'New Event'}</h1>
       <hr />
       <form className="row g-3" onSubmit={handleSubmit}>
         <div className="col-12">
@@ -172,7 +178,7 @@ const CalendarModal = () => {
             type="submit"
             className="btn btn-primary w-100"
           >
-            Create Event
+            { id ? 'Update Event' : 'New Event'}
           </button>
         </div>
       </form>
