@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }] */
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -7,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'moment/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { setEventActive } from '../actions/calendar';
+import { clearEventActive, setEventActive } from '../actions/calendar';
 import { modalOpen } from '../actions/modal';
 import CalendarModal from '../components/calendar/CalendarModal';
 import AddNewFab from '../components/ui/AddNewFab';
@@ -29,11 +28,12 @@ const CalendarPage = () => {
     event: Event,
   };
 
-  const eventStyleGetter = (_event, _start, _end, _isSelected) => ({
+  const eventStyleGetter = () => ({
     style: {
       backgroundColor: 'red',
       borderRadius: '0px',
       color: 'white',
+      outline: 'none',
     },
   });
 
@@ -43,6 +43,10 @@ const CalendarPage = () => {
 
   const onSelect = (e) => {
     dispatch(setEventActive(e));
+  };
+
+  const onSelectSlot = () => {
+    dispatch(clearEventActive());
   };
 
   const onView = (e) => {
@@ -61,6 +65,8 @@ const CalendarPage = () => {
         messages={messages}
         onDoubleClickEvent={onDoubleClik}
         onSelectEvent={onSelect}
+        onSelectSlot={onSelectSlot}
+        selectable
         onView={onView}
         view={lastView}
       />
