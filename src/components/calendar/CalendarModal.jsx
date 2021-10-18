@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { newEvent } from '../../actions/calendar';
+import { clearEventActive, newEvent } from '../../actions/calendar';
 import { modalClose } from '../../actions/modal';
 
 import '../../styles/modal.css';
@@ -23,22 +23,35 @@ Modal.setAppElement('#root');
 const startDate = moment().minutes(0).seconds(0).add(1, 'hours');
 const endDate = startDate.clone().add(1, 'hours');
 
+const initEvent = {
+  description: '',
+  end: endDate.toDate(),
+  start: startDate.toDate(),
+  title: '',
+};
+
 const CalendarModal = () => {
   const modal = useSelector((state) => state.modal);
+  const { activeEvent } = useSelector((state) => state.calendar);
   const dispatch = useDispatch();
-  const [formValues, setFormValues] = useState({
-    description: '',
-    end: endDate.toDate(),
-    start: startDate.toDate(),
-    title: '',
-  });
+  const [formValues, setFormValues] = useState(initEvent);
   const [titleInvalid, setTitleInvalid] = useState(false);
 
   const {
     description, end, start, title,
   } = formValues;
 
-  const closeModal = () => { dispatch(modalClose()); };
+  useEffect(() => {
+    if (activeEvent !== null) {
+      setFormValues(activeEvent);
+    }
+  }, [activeEvent]);
+
+  const closeModal = () => {
+    dispatch(modalClose());
+    dispatch(clearEventActive());
+    setFormValues(initEvent);
+  };
 
   const handleEndDateChange = (date) => {
     setFormValues({

@@ -1,5 +1,9 @@
 import moment from 'moment';
-import { CALENDAR_NEW_EVENT, CALENDAR_SET_ACTIVE } from '../actions/calendar';
+import {
+  CALENDAR_CLEAR_ACTIVE,
+  CALENDAR_NEW_EVENT,
+  CALENDAR_SET_ACTIVE,
+} from '../actions/calendar';
 
 const initialState = {
   events: [
@@ -24,6 +28,12 @@ export default (state = initialState, { type, payload }) => {
       return {
         events: [...state.events, payload],
         activeEvent: payload,
+      };
+
+    case CALENDAR_CLEAR_ACTIVE:
+      return {
+        ...state,
+        activeEvent: null,
       };
 
     case CALENDAR_SET_ACTIVE:
