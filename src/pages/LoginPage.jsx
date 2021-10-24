@@ -1,31 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { loginStart } from '../actions/auth';
+import useForm from '../hooks/useForm';
 
 import '../styles/login.css';
 
-const initialState = {
-  email: 'test1@email.com',
-  password: '123456',
+const initLogin = {
+  loginEmail: 'test1@email.com',
+  loginPassword: '123456',
 };
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const [formValues, setFormValues] = useState(initialState);
+  const [{ loginEmail, loginPassword }, changeLoginInputs, resetLoginInputs] = useForm(initLogin);
 
-  const { email, password } = formValues;
-
-  const handleChange = (({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  });
-
+  const handleLoginChange = ({ target }) => changeLoginInputs(target);
   const handleLogin = (evt) => {
     evt.preventDefault();
-    dispatch(loginStart({ email, password }));
-    setFormValues(initialState);
+    dispatch(loginStart({
+      email: loginEmail,
+      password: loginPassword,
+    }));
+    resetLoginInputs();
   };
 
   return (
@@ -40,22 +36,22 @@ const LoginPage = () => {
             <input
               className="form-control"
               id="inputEmail"
-              name="email"
-              onChange={handleChange}
+              name="loginEmail"
+              onChange={handleLoginChange}
               placeholder="Email address"
               required
               type="email"
-              value={email}
+              value={loginEmail}
             />
             <input
               className="form-control"
               id="inputPassword"
-              name="password"
-              onChange={handleChange}
+              name="loginPassword"
+              onChange={handleLoginChange}
               placeholder="Password"
               required
               type="password"
-              value={password}
+              value={loginPassword}
             />
             <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
           </form>
