@@ -21,7 +21,7 @@ const initRegister = {
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const [{ loginEmail, loginPassword }, changeLoginInputs, resetLoginInputs] = useForm(initLogin);
+  const [{ loginEmail, loginPassword }, changeLoginInputs] = useForm(initLogin);
   const [registerInputs, changeRegisterInputs, resetRegisterInputs] = useForm(initRegister);
 
   const handleLogin = (evt) => {
@@ -32,7 +32,6 @@ const LoginPage = () => {
       email: loginEmail,
       password: loginPassword,
     }));
-    resetLoginInputs();
   };
 
   const handleLoginChange = ({ target }) => changeLoginInputs(target);

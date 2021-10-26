@@ -11,3 +11,13 @@ export const registerService = ({ email, name, password }) => axios
   .post(`${baseUrl}/register`, { email, name, password })
   .then(({ data }) => data)
   .catch(({ response: { data } }) => data);
+
+export const renewService = () => {
+  const token = localStorage.getItem('token') || '';
+  const config = { headers: { 'X-Authorization': token } };
+
+  return axios
+    .get(`${baseUrl}/renew`, config)
+    .then(({ data }) => data)
+    .catch(({ response: { data } }) => data);
+};

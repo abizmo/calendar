@@ -1,4 +1,4 @@
-import { AUTH_LOGIN } from '../actions/auth';
+import { AUTH_CHECKING_FINISH, AUTH_LOGIN } from '../actions/auth';
 
 const initialState = {
   checking: true,
@@ -9,6 +9,12 @@ const initialState = {
 // eslint-disable-next-line no-unused-vars
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case AUTH_CHECKING_FINISH:
+      return {
+        ...state,
+        checking: false,
+      };
+
     case AUTH_LOGIN:
       return {
         checking: false,
