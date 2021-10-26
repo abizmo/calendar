@@ -4,6 +4,7 @@ import { loginService, registerService, renewService } from '../services/auth';
 
 export const AUTH_CHECKING_FINISH = 'AUTH_CHECKING_FINISH';
 export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 const notLogged = () => ({
   type: AUTH_CHECKING_FINISH,
@@ -40,6 +41,15 @@ export const loginStart = ({ email, password }) => async (dispatch) => {
     localStorage.setItem('token-init', new Date().getTime());
     dispatch(login({ name, uid }));
   }
+};
+
+export const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('token-init');
+
+  return ({
+    type: AUTH_LOGOUT,
+  });
 };
 
 export const registerStart = ({ email, name, password }) => async (dispatch) => {

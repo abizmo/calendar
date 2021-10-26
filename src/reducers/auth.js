@@ -1,4 +1,4 @@
-import { AUTH_CHECKING_FINISH, AUTH_LOGIN } from '../actions/auth';
+import { AUTH_CHECKING_FINISH, AUTH_LOGIN, AUTH_LOGOUT } from '../actions/auth';
 
 const initialState = {
   checking: true,
@@ -20,6 +20,13 @@ export default (state = initialState, { type, payload }) => {
         checking: false,
         name: payload.name,
         uid: payload.uid,
+      };
+
+    case AUTH_LOGOUT:
+      return {
+        ...state,
+        name: null,
+        uid: null,
       };
 
     default:
