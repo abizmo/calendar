@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
 import { loginStart, registerStart } from '../actions/auth';
 import useForm from '../hooks/useForm';
@@ -44,8 +45,7 @@ const LoginPage = () => {
 
     // TODO: more validations?
     if (password !== confirmPassword) {
-      // TODO: display error
-      console.log('Passwords not equal');
+      Swal.fire('Error', 'Both passwords have to been equal', 'error');
     } else {
       dispatch(registerStart({ email, name, password }));
       resetRegisterInputs();
