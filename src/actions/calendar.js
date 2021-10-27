@@ -1,3 +1,8 @@
+import moment from 'moment';
+import Swal from 'sweetalert2';
+
+import { createEvent } from '../services/calendar';
+
 export const CALENDAR_CLEAR_ACTIVE = 'CALENDAR_CLEAR_ACTIVE';
 export const CALENDAR_DELETE_EVENT = 'CALENDAR_DELETE_EVENT';
 export const CALENDAR_NEW_EVENT = 'CALENDAR_NEW_EVENT';
@@ -12,10 +17,22 @@ export const deleteEvent = () => ({
   type: CALENDAR_DELETE_EVENT,
 });
 
-export const newEvent = (event) => ({
+const newEvent = (event) => ({
   type: CALENDAR_NEW_EVENT,
-  payload: { ...event, id: Math.random(), user: { userId: '0123', name: 'goccita' } },
+  payload: { ...event },
 });
+
+export const newEventStart = (event) => async (dispatch) => {
+  const { data, msg, ok } = await createEvent(event);
+
+  if (!ok) {
+    Swal.fire('Error', msg, 'error');
+  } else {
+    data.end = moment(data.end).toDate();
+    data.start = moment(data.start).toDate();
+    dispatch(newEvent(data));
+  }
+};
 
 export const setEventActive = (payload) => ({
   type: CALENDAR_SET_ACTIVE,

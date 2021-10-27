@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
   CALENDAR_CLEAR_ACTIVE,
   CALENDAR_DELETE_EVENT,
@@ -8,22 +7,10 @@ import {
 } from '../actions/calendar';
 
 const initialState = {
-  events: [
-    {
-      id: Math.random(),
-      title: 'First event',
-      start: moment().toDate(),
-      end: moment().add(2, 'hours').toDate(),
-      user: {
-        userId: '0123',
-        name: 'goccita',
-      },
-    },
-  ],
+  events: [],
   activeEvent: null,
 };
 
-// eslint-disable-next-line no-unused-vars
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case CALENDAR_CLEAR_ACTIVE:
