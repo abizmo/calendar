@@ -3,6 +3,7 @@ import {
   CALENDAR_DELETE_EVENT,
   CALENDAR_NEW_EVENT,
   CALENDAR_SET_ACTIVE,
+  CALENDAR_SET_EVENTS,
   CALENDAR_UPDATE_EVENT,
 } from '../actions/calendar';
 
@@ -35,6 +36,12 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         activeEvent: { ...payload },
+      };
+
+    case CALENDAR_SET_EVENTS:
+      return {
+        ...state,
+        events: payload,
       };
 
     case CALENDAR_UPDATE_EVENT:

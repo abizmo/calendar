@@ -1,12 +1,12 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { useDispatch, useSelector } from 'react-redux';
 
 import 'moment/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { clearEventActive, setEventActive } from '../actions/calendar';
+import { clearEventActive, getEvents, setEventActive } from '../actions/calendar';
 import { modalOpen } from '../actions/modal';
 import CalendarModal from '../components/calendar/CalendarModal';
 import AddNewFab from '../components/ui/AddNewFab';
@@ -23,6 +23,10 @@ const CalendarPage = () => {
   const dispatch = useDispatch();
   const { events, activeEvent } = useSelector((state) => state.calendar);
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week');
+
+  useEffect(() => {
+    dispatch(getEvents());
+  }, []);
 
   const components = {
     event: Event,
