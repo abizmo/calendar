@@ -1,7 +1,7 @@
-import moment from 'moment';
 import Swal from 'sweetalert2';
 
-import { createEvent, getAllEvents } from '../services/calendar';
+import formatEvent from '../helpers/formatEvent';
+import { createEvent, getAllEvents, updateOneEvent } from '../services/calendar';
 
 export const CALENDAR_CLEAR_ACTIVE = 'CALENDAR_CLEAR_ACTIVE';
 export const CALENDAR_DELETE_EVENT = 'CALENDAR_DELETE_EVENT';
@@ -29,11 +29,7 @@ export const getEvents = () => async (dispatch) => {
   if (!ok) {
     Swal.fire('Error', msg, 'error');
   } else {
-    const events = data.map((event) => ({
-      ...event,
-      end: moment(event.end).toDate(),
-      start: moment(event.start).toDate(),
-    }));
+    const events = data.map(formatEvent);
     dispatch(setEvents(events));
   }
 };
@@ -49,9 +45,8 @@ export const newEventStart = (event) => async (dispatch) => {
   if (!ok) {
     Swal.fire('Error', msg, 'error');
   } else {
-    data.end = moment(data.end).toDate();
-    data.start = moment(data.start).toDate();
-    dispatch(newEvent(data));
+    const formattedEvent = formatEvent(data);
+    dispatch(newEvent(formattedEvent));
   }
 };
 
@@ -60,7 +55,18 @@ export const setEventActive = (payload) => ({
   payload,
 });
 
-export const updateEvent = (payload) => ({
+const updateEvent = (payload) => ({
   type: CALENDAR_UPDATE_EVENT,
   payload,
 });
+
+export const updateEventStart = (event) => async (dispatch) => {
+  const { data, msg, ok } = await updateOneEvent(event);
+
+  if (!ok) {
+    Swal.fire('Error', msg, 'error');
+  } else {
+    const formattedEvent = formatEvent(data);
+    dispatch(updateEvent(formattedEvent));
+  }
+};

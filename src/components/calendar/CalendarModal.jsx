@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
-import { clearEventActive, newEventStart, updateEvent } from '../../actions/calendar';
+import { clearEventActive, newEventStart, updateEventStart } from '../../actions/calendar';
 import { modalClose } from '../../actions/modal';
 
 import '../../styles/modal.css';
@@ -99,7 +99,7 @@ const CalendarModal = () => {
     setTitleInvalid(false);
     // TODO: enviar valores
     if (id) {
-      dispatch(updateEvent(formValues));
+      dispatch(updateEventStart(formValues));
     } else {
       dispatch(newEventStart(formValues));
     }

@@ -28,3 +28,12 @@ export const getAllEvents = () => {
     .then(({ data }) => data)
     .catch(({ response: { data } }) => data);
 };
+
+export const updateOneEvent = (event) => {
+  const config = getConfig();
+
+  return axios
+    .put(`${baseUrl}/${event.id}`, event, config)
+    .then(({ data }) => data)
+    .catch(({ response: { data } }) => data);
+};
