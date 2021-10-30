@@ -1,7 +1,10 @@
 import Swal from 'sweetalert2';
 
 import formatEvent from '../helpers/formatEvent';
-import { createEvent, getAllEvents, updateOneEvent } from '../services/calendar';
+import {
+  // eslint-disable-next-line no-unused-vars
+  createEvent, deleteOneEvent, getAllEvents, updateOneEvent,
+} from '../services/calendar';
 
 export const CALENDAR_CLEAR_ACTIVE = 'CALENDAR_CLEAR_ACTIVE';
 export const CALENDAR_DELETE_EVENT = 'CALENDAR_DELETE_EVENT';
@@ -14,9 +17,21 @@ export const clearEventActive = () => ({
   type: CALENDAR_CLEAR_ACTIVE,
 });
 
-export const deleteEvent = () => ({
+const deleteEvent = () => ({
   type: CALENDAR_DELETE_EVENT,
 });
+
+export const deleteEventStart = () => async (dispatch, getState) => {
+  const { id } = getState().calendar.activeEvent;
+  const { msg, ok } = await deleteOneEvent(id);
+
+  if (!ok) {
+    Swal.fire('Error', msg, 'error');
+  } else {
+    dispatch(deleteEvent());
+    Swal.fire('Success', msg, 'success');
+  }
+};
 
 const setEvents = (payload) => ({
   type: CALENDAR_SET_EVENTS,

@@ -20,6 +20,15 @@ export const createEvent = (event) => {
     .catch(({ response: { data } }) => data);
 };
 
+export const deleteOneEvent = (eventId) => {
+  const config = getConfig();
+
+  return axios
+    .delete(`${baseUrl}/${eventId}`, config)
+    .then(({ data }) => data)
+    .catch(({ response: { data } }) => data);
+};
+
 export const getAllEvents = () => {
   const config = getConfig();
 

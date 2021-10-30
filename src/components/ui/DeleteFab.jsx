@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { deleteEvent } from '../../actions/calendar';
+import { deleteEventStart } from '../../actions/calendar';
 
 import '../../styles/ui.css';
 
@@ -9,7 +9,7 @@ const AddNewFab = () => {
   const dispatch = useDispatch();
 
   const handleOnClick = () => {
-    dispatch(deleteEvent());
+    dispatch(deleteEventStart());
   };
 
   return (
