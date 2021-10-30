@@ -8,6 +8,7 @@ import {
 
 export const CALENDAR_CLEAR_ACTIVE = 'CALENDAR_CLEAR_ACTIVE';
 export const CALENDAR_DELETE_EVENT = 'CALENDAR_DELETE_EVENT';
+export const CALENDAR_CLEAR = 'CALENDAR_CLEAR';
 export const CALENDAR_NEW_EVENT = 'CALENDAR_NEW_EVENT';
 export const CALENDAR_SET_ACTIVE = 'CALENDAR_SET_ACTIVE';
 export const CALENDAR_SET_EVENTS = 'CALENDAR_SET_EVENTS';
@@ -32,6 +33,10 @@ export const deleteEventStart = () => async (dispatch, getState) => {
     Swal.fire('Success', msg, 'success');
   }
 };
+
+export const clearCalendar = () => ({
+  type: CALENDAR_CLEAR,
+});
 
 const setEvents = (payload) => ({
   type: CALENDAR_SET_EVENTS,

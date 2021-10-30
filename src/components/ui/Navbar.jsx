@@ -2,12 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../../actions/auth';
+import { clearCalendar } from '../../actions/calendar';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { name } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
+    dispatch(clearCalendar());
     dispatch(logout());
   };
 

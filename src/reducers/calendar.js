@@ -1,4 +1,5 @@
 import {
+  CALENDAR_CLEAR,
   CALENDAR_CLEAR_ACTIVE,
   CALENDAR_DELETE_EVENT,
   CALENDAR_NEW_EVENT,
@@ -14,6 +15,9 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case CALENDAR_CLEAR:
+      return { ...initialState };
+
     case CALENDAR_CLEAR_ACTIVE:
       return {
         ...state,
