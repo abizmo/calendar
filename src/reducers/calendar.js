@@ -1,31 +1,23 @@
-import moment from 'moment';
 import {
+  CALENDAR_CLEAR,
   CALENDAR_CLEAR_ACTIVE,
   CALENDAR_DELETE_EVENT,
   CALENDAR_NEW_EVENT,
   CALENDAR_SET_ACTIVE,
+  CALENDAR_SET_EVENTS,
   CALENDAR_UPDATE_EVENT,
 } from '../actions/calendar';
 
 const initialState = {
-  events: [
-    {
-      id: Math.random(),
-      title: 'First event',
-      start: moment().toDate(),
-      end: moment().add(2, 'hours').toDate(),
-      user: {
-        userId: '0123',
-        name: 'goccita',
-      },
-    },
-  ],
+  events: [],
   activeEvent: null,
 };
 
-// eslint-disable-next-line no-unused-vars
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case CALENDAR_CLEAR:
+      return { ...initialState };
+
     case CALENDAR_CLEAR_ACTIVE:
       return {
         ...state,
@@ -48,6 +40,12 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         activeEvent: { ...payload },
+      };
+
+    case CALENDAR_SET_EVENTS:
+      return {
+        ...state,
+        events: payload,
       };
 
     case CALENDAR_UPDATE_EVENT:
